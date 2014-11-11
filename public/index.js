@@ -60,10 +60,18 @@ $(function() {
 			$inputMessage.val('');
 			addChatMessage({
 				username: username,
-				message: message
+				message: message,
+				latitude: latitude,
+				longitude: longitude
 			});
+
+			bundle = {
+				message: message,
+				latitude: latitude,
+				longitude: longitude
+			}
 			// send new message to server
-			socket.emit('new message', message);
+			socket.emit('new message', bundle);
 		}
 	}
 

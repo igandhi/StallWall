@@ -2,8 +2,16 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
+var mongoose = require('mongoose');
+
+var Chat = require('./models/chat.js');
 
 app.use(express.static(__dirname + '/public'));
+
+mongoose.connect('mongodb://localhost/stallwall', function(err, res) {
+	if (err) return console.log('ERROR connecting to db');
+	console.log('Successfully connected to db');
+});
 
 var usernames = {};
 var numUsers = 0;
@@ -24,6 +32,20 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('new message', function(data) {
+		console.log('data receive: ' + data.latitude);
+		var newMessage = new Chat({
+			message: data.message,
+			loc: {
+				type: 'Point',
+				coordinates: [data.longitude, data.latitude]
+			}
+		});		
+			
+		newMessage.save(function (err, newMessage) {
+			if (err) return console.error(err);
+			console.log('new message saved in db');
+		});	
+
 		socket.broadcast.emit('new message', {
 			username: socket.username,
 			message: data
