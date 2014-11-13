@@ -48,20 +48,32 @@ io.on('connection', function(socket) {
 
 		socket.broadcast.emit('new message', {
 			username: socket.username,
-			message: data
+			timestamp: Date.now,
+			message: data.message
 		});
 	});
 
-	socket.on('add user', function(username) {
-		socket.username = username;
-		usernames[username] = username;
-		++numUsers;
-		addedUser = true;
-		socket.emit('login', {
-			numUsers: numUsers
+	socket.on('new user', function(data) {
+		var nearbyMessages;
+		Chat.find ({
+			"loc": {
+				$near: { 
+					$geometry: {
+						type: "Point", 
+						coordinates: [-73.981891 , 40.736936]
+					}, 
+					$maxDistance: 4
+				}
+			}
+		}, function(err, result) {
+			if (err) return console.log('Error retreiving data');
+			io.emit('nearby messages', {
+				data: result
+			});
 		});
-	})
-})
+		
+	});
+});
 
 server.listen(3000, function() {
 	console.log('listening on port 3000');

@@ -48,8 +48,13 @@ $(function() {
 			$loginPage.off('click');
 			$currentInput = $inputMessage.focus();
 
+			bundle = {
+				latitude: latitude,
+				longitude: longitude
+			}
+
 			// Tell server to add new user
-			socket.emit('add user', username);
+			socket.emit('new user', bundle);
 		}
 	}
 
@@ -76,14 +81,16 @@ $(function() {
 	}
 
 	function addChatMessage(data) {
-		var $usernameDiv = $('<span class="username"/>').text(data.username);
-		var $messageBodyDiv = $('<span class="messageBody"/>').text(data.message);
+		for (var i=0; i<data.length; i++){
+			var $timestampDiv = $('<span class="username"/>').text(data[i].timestamp);
+			var $messageBodyDiv = $('<li class="message"/>').text(data[i].message);
 
-		var $messageDiv = $('<li class="message"/>')
-			.data('username', data.username)
-			.append($usernameDiv, $messageBodyDiv);
+			var $messageDiv = $('<li class="message"/>')
+				.append($timestampDiv, $messageBodyDiv);
 
-		addMessageElement($messageDiv)
+			$messages.append($messageDiv);
+
+		}
 	}
 
 	function addMessageElement(el) {
@@ -122,12 +129,15 @@ $(function() {
 	});
 
 	// socket events
-	socket.on('login', function(data) {
+	socket.on('nearby messages', function(data) {
+		console.log(data.data);
+		addChatMessage(data.data);
 		connected = true;
 	});
 
 	socket.on('new message', function(data) {
-		addChatMessage(data);
+		console.log(data);
+		addChatMessage([data]);
 	});
 
 
