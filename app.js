@@ -55,9 +55,6 @@ mongoose.connect('mongodb://localhost/stallwall', function(err, res) {
 	console.log('Successfully connected to db');
 });
 
-var usernames = {};
-var numUsers = 0;
-
 io.on('connection', function(socket) {
 	console.log('new user connected');
 	socket.on('disconnect', function() {
@@ -66,7 +63,6 @@ io.on('connection', function(socket) {
 });
 
 io.on('connection', function(socket) {
-	var addedUser = false;
 
 	socket.on('new location', function(loc) {
 		console.log(loc.lat);
@@ -96,13 +92,12 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('new user', function(data) {
-		var nearbyMessages;
 		Chat.find ({
 			"loc": {
 				$near: { 
 					$geometry: {
 						type: "Point", 
-						coordinates: [-73.981891 , 40.736936]
+						coordinates: [data.longitude, data.latitude]
 					}, 
 					$maxDistance: 4000
 				}
