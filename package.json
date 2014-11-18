@@ -2,18 +2,30 @@
   "name": "StallWall",
   "version": "0.0.1",
   "description": "Anonymous location based chat",
-  "main": "index.js",
+  "keywords": [
+    "Anonymous",
+    "location",
+    "based",
+    "chat"
+  ],
+  "author": "Ike Gandhi, Kossy Uzokwe",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/igandhi/StallWall.git"
+  },
+  "bugs": {
+    "url": "https://github.com/igandhi/StallWall/issues"
+  },
+  "homepage": "https://github.com/igandhi/StallWall",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "consolidate": "^0.10.0",
     "express": "^4.10.1",
     "mongoose": "^3.8.19",
-    "morgan": "^1.5.0",
-    "socket.io": "^1.2.0",
-    "swig": "^1.4.2"
-  }
+    "socket.io": "^1.2.0"
+  },
+  "devDependencies": {}
 }
