@@ -1,14 +1,12 @@
 $(function() {
 
 	// Initialize variables
-	var $window = $(window);
 	var $messages = $('.messages');
 	var $inputMessage = $('.inputMessage');
 	var $submit = $('#inputMessageButton');
 
 	var firstTime = true;
 	var connected = false;
-	var typing = false;
 	var latitude;
 	var longitude;
 
@@ -69,26 +67,15 @@ $(function() {
 	}
 
 	// keyboard events
-	$window.keydown(function (event) {
-		if (!(event.ctrlKey || event.metaKey || event.altKey)) {
-			$inputMessage.focus();
-		}
+	$inputMessage.keydown(function (event) {
 		// When enter is pressed
 		if (event.which === 13) {
 			sendMessage();
-			socket.emit('stop typing');
-			typing = false;
 		}
 	});
 	
 	$submit.click(function(event) {
 		sendMessage();
-		socket.emit('stop typing');
-		typing = false;
-	});
-
-	$inputMessage.click(function() {
-		$inputMessage.focus();
 	});
 
 	// socket events
