@@ -10,6 +10,7 @@ $(function() {
 	var $chatPage = $('.chat.page');
 
 	var username;
+	var firstTime = true;
 	var connected = false;
 	var typing = false;
 	var $currentInput = $usernameInput.focus();
@@ -63,18 +64,16 @@ $(function() {
 		message = cleanInput(message);
 		if (message && connected) {
 			$inputMessage.val('');
-			addChatMessage({
-				username: username,
-				message: message,
-				latitude: latitude,
-				longitude: longitude
-			});
 
 			bundle = {
 				message: message,
+				timestamp: Date.now,
 				latitude: latitude,
 				longitude: longitude
 			}
+
+			addChatMessage([bundle]);
+
 			// send new message to server
 			socket.emit('new message', bundle);
 		}
@@ -131,7 +130,10 @@ $(function() {
 	// socket events
 	socket.on('nearby messages', function(data) {
 		console.log(data.data);
-		addChatMessage(data.data);
+		if (firstTime) {
+			addChatMessage(data.data);
+			firstTime = false;
+		}
 		connected = true;
 	});
 
