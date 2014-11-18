@@ -1,13 +1,30 @@
 <!doctype html>
-<html>
+<html class="no-js" lang="en">
   <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>StallWall</title>
+    <link rel="stylesheet" href="css/foundation.css" />
+    <script src="js/vendor/modernizr.js"></script>
   </head>
   <body>
-    <div class="position"></div>
-    <input class="inputMessage" placeholder="Type here..."/>
-    <div class="large-12 columns messages"></div>
-    <script src="./jquery.js"></script>
+    <div class="row">
+      <div class="small-12 columns">
+        <h3 class="position"></h3>
+      </div>
+    </div>
+    
+    <div class="row">
+      <textarea rows="3" class="inputMessage" placeholder="Type here..."></textarea>
+      <input id="inputMessageButton" class="button small small-12" type="button" value="Send Message"/>
+      <div class="small-12 columns messages"></div>
+    </div>
+    
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/index.js"></script>
   </body>
