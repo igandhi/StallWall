@@ -55,10 +55,12 @@ $(function() {
 
 	function addChatMessage(data) {
 		for (var i=0; i<data.length; i++){
-			var $timestampDiv = $('<p class="message-timestamp"/>').text(data[i].timestamp);
+			var prettyTime = moment(data[i].timestamp).fromNow();
+			var $timestampDiv = $('<p class="message-timestamp"/>').text(prettyTime);
 			var $messageBodyDiv = $('<h4 class="message-body"/>').text(data[i].message);
 			var $messageDiv = $('<div class="row message"/>').append($messageBodyDiv, $timestampDiv);
-			$messages.append($messageDiv);
+			$messageDiv.append('<hr/>');
+			$messages.prepend($messageDiv);
 		}
 	}
 
