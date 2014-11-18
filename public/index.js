@@ -4,11 +4,11 @@ $(function() {
 	var $window = $(window);
 	var $messages = $('.messages');
 	var $inputMessage = $('.inputMessage');
+	var $submit = $('#inputMessageButton');
 
 	var firstTime = true;
 	var connected = false;
 	var typing = false;
-	var $currentInput = $inputMessage.focus();
 	var latitude;
 	var longitude;
 
@@ -55,7 +55,6 @@ $(function() {
 
 	function addChatMessage(data) {
 		for (var i=0; i<data.length; i++){
-			console.log(data[i]);
 			var $timestampDiv = $('<p class="message-timestamp"/>').text(data[i].timestamp);
 			var $messageBodyDiv = $('<h4 class="message-body"/>').text(data[i].message);
 			var $messageDiv = $('<div class="row message"/>').append($messageBodyDiv, $timestampDiv);
@@ -70,7 +69,7 @@ $(function() {
 	// keyboard events
 	$window.keydown(function (event) {
 		if (!(event.ctrlKey || event.metaKey || event.altKey)) {
-			$currentInput.focus();
+			$inputMessage.focus();
 		}
 		// When enter is pressed
 		if (event.which === 13) {
@@ -78,6 +77,12 @@ $(function() {
 			socket.emit('stop typing');
 			typing = false;
 		}
+	});
+	
+	$submit.click(function(event) {
+		sendMessage();
+		socket.emit('stop typing');
+		typing = false;
 	});
 
 	$inputMessage.click(function() {
