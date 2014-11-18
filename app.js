@@ -3,8 +3,50 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var mongoose = require('mongoose');
-
+var consolidate = require('consolidate');
+var morgan = require('morgan');
 var Chat = require('./models/chat.js');
+
+app.set('port', process.env.PORT || 3000);
+
+// Set swig as the template engine
+app.engine('html', consolidate['swig']);
+
+// Set views path and view engine
+app.set('view engine', 'html');
+app.set('views', './public');
+
+// Environment dependent middleware
+if (process.env.NODE_ENV === 'production') {
+	app.locals.cache = 'memory';
+}else {
+	// Enable logger (morgan)
+	app.use(morgan('dev'));
+	// Disable views cache
+	app.set('view cache', false);
+}
+
+// Root routing
+app.route('/').get(function (req, res) {
+	res.render('index', {title: 'Stall Wall'});
+}).post(function (req, res) {
+	// Handle POST requests, if any
+	res.end();
+});
+
+app.route('/home').get(function (req, res) {
+	res.render('home', {title: 'Stall Wall'});
+}).post(function (req, res) {
+	// Handle POST requests, if any
+	res.end();
+});
+
+app.route('/feed').get(function (req, res) {
+	res.render('feed', {title: 'Stall Wall'});
+}).post(function (req, res) {
+	// Handle POST requests, if any
+	res.end();
+});
 
 app.use(express.static(__dirname + '/public'));
 
@@ -75,6 +117,6 @@ io.on('connection', function(socket) {
 	});
 });
 
-server.listen(3000, function() {
-	console.log('listening on port 3000');
+server.listen(app.get('port'), function() {
+	console.log('listening on port '+app.get('port'));
 });

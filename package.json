@@ -9,8 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "consolidate": "^0.10.0",
     "express": "^4.10.1",
+    "mongoose": "^3.8.19",
+    "morgan": "^1.5.0",
     "socket.io": "^1.2.0",
-    "mongodb": "^1.4.19"
+    "swig": "^1.4.2"
   }
 }
