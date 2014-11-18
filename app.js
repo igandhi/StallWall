@@ -64,15 +64,11 @@ io.on('connection', function(socket) {
 
 io.on('connection', function(socket) {
 
-	socket.on('new location', function(loc) {
-		console.log(loc.lat);
-		console.log(loc.lon);
-	});
-
 	socket.on('new message', function(data) {
 		console.log('data receive: ' + data.latitude);
 		var newMessage = new Chat({
 			message: data.message,
+			timestamp: data.timestamp,
 			loc: {
 				type: 'Point',
 				coordinates: [data.longitude, data.latitude]
@@ -86,18 +82,18 @@ io.on('connection', function(socket) {
 
 		socket.broadcast.emit('new message', {
 			username: socket.username,
-			timestamp: Date.now,
+			timestamp: data.timestamp,
 			message: data.message
 		});
 	});
 
-	socket.on('new user', function(data) {
+	socket.on('new location', function(loc) {
 		Chat.find ({
 			"loc": {
 				$near: { 
 					$geometry: {
 						type: "Point", 
-						coordinates: [data.longitude, data.latitude]
+						coordinates: [loc.lon, loc.lat]
 					}, 
 					$maxDistance: 4000
 				}
