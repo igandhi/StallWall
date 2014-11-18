@@ -1,0 +1,18 @@
+/* Foundation was made by ZURB, an interaction design and design strategy firm in Campbell, CA */
+/* zurb.com */
+/* humanstxt.org */
+
+# TEAM
+
+    Kossy Uzokwe  Front-End Developer   @delkopiso
+    Ike Gandhi    Backend Developer
+
+# THANKS
+
+    Ofure Akhiwu - Design Inspiration
+
+/* SITE */
+  Standards: HTML5, CSS3, JavaScript
+  Components: jQuery, Orbit, Reveal
+  Software: WebStorm, Sublime, Git, Sass
+  Framework: Node.js, Express 4, Socket.io
