@@ -1,19 +1,12 @@
 $(function() {
 
 	// Initialize variables
-	var $window = $(window);
-	var $usernameInput = $('.usernameInput');
 	var $messages = $('.messages');
 	var $inputMessage = $('.inputMessage');
+	var $submit = $('#inputMessageButton');
 
-	var $loginPage = $('.loging.page');
-	var $chatPage = $('.chat.page');
-
-	var username;
 	var firstTime = true;
 	var connected = false;
-	var typing = false;
-	var $currentInput = $usernameInput.focus();
 	var latitude;
 	var longitude;
 
@@ -33,30 +26,9 @@ $(function() {
 		var location = {
 			lat: latitude,
 			lon: longitude
-		}
+		};
 		// send location to server
 		socket.emit('new location', location);
-	}
-
-	// functions
-	function setUsername() {
-		username = cleanInput($usernameInput.val().trim());
-
-		// If username is valid
-		if (username) {
-			$loginPage.fadeOut();
-			$chatPage.show();
-			$loginPage.off('click');
-			$currentInput = $inputMessage.focus();
-
-			bundle = {
-				latitude: latitude,
-				longitude: longitude
-			}
-
-			// Tell server to add new user
-			socket.emit('new user', bundle);
-		}
 	}
 
 	function sendMessage() {
@@ -65,12 +37,12 @@ $(function() {
 		if (message && connected) {
 			$inputMessage.val('');
 
-			bundle = {
+			var bundle = {
 				message: message,
-				timestamp: Date.now,
+				timestamp: new Date(),
 				latitude: latitude,
 				longitude: longitude
-			}
+			};
 
 			addChatMessage([bundle]);
 
@@ -81,21 +53,13 @@ $(function() {
 
 	function addChatMessage(data) {
 		for (var i=0; i<data.length; i++){
-			var $timestampDiv = $('<span class="username"/>').text(data[i].timestamp);
-			var $messageBodyDiv = $('<li class="message"/>').text(data[i].message);
-
-			var $messageDiv = $('<li class="message"/>')
-				.append($timestampDiv, $messageBodyDiv);
-
-			$messages.append($messageDiv);
-
+			var prettyTime = moment(data[i].timestamp).fromNow();
+			var $timestampDiv = $('<p class="message-timestamp"/>').text(prettyTime);
+			var $messageBodyDiv = $('<h4 class="message-body"/>').text(data[i].message);
+			var $messageDiv = $('<div class="row message"/>').append($messageBodyDiv, $timestampDiv);
+			$messageDiv.append('<hr/>');
+			$messages.prepend($messageDiv);
 		}
-	}
-
-	function addMessageElement(el) {
-		var $el = $(el);
-		$messages.append($el);
-		$messages[0].scrollTop = $messages[0].scrollHeight;
 	}
 
 	function cleanInput(input) {
@@ -103,33 +67,19 @@ $(function() {
 	}
 
 	// keyboard events
-	$window.keydown(function (event) {
-		if (!(event.ctrlKey || event.metaKey || event.altKey)) {
-			$currentInput.focus();
-		}
+	$inputMessage.keydown(function (event) {
 		// When enter is pressed
 		if (event.which === 13) {
-			if (username) {
-				sendMessage();
-				socket.emit('stop typing');
-				typing = false;
-			} else {
-				setUsername();
-			}
+			sendMessage();
 		}
 	});
-
-	$loginPage.click(function() {
-		$currentInput.focus();
-	});
-
-	$inputMessage.click(function() {
-		$inputMessage.focus();
+	
+	$submit.click(function(event) {
+		sendMessage();
 	});
 
 	// socket events
 	socket.on('nearby messages', function(data) {
-		console.log(data.data);
 		if (firstTime) {
 			addChatMessage(data.data);
 			firstTime = false;
@@ -138,9 +88,6 @@ $(function() {
 	});
 
 	socket.on('new message', function(data) {
-		console.log(data);
 		addChatMessage([data]);
 	});
-
-
 });

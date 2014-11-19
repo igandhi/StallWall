@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var chatSchema = new mongoose.Schema({
 	message: String,
-	timestamp: {type: Date, default: Date.now},
+	timestamp: {type: Date, default: new Date()},
 	loc: {
 		type: {
 			type: "String",

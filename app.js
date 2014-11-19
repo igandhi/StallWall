@@ -3,8 +3,9 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var mongoose = require('mongoose');
-
 var Chat = require('./models/chat.js');
+
+app.set('port', process.env.PORT || 3000);
 
 app.use(express.static(__dirname + '/public'));
 
@@ -12,9 +13,6 @@ mongoose.connect('mongodb://localhost/stallwall', function(err, res) {
 	if (err) return console.log('ERROR connecting to db');
 	console.log('Successfully connected to db');
 });
-
-var usernames = {};
-var numUsers = 0;
 
 io.on('connection', function(socket) {
 	console.log('new user connected');
@@ -24,17 +22,12 @@ io.on('connection', function(socket) {
 });
 
 io.on('connection', function(socket) {
-	var addedUser = false;
-
-	socket.on('new location', function(loc) {
-		console.log(loc.lat);
-		console.log(loc.lon);
-	});
 
 	socket.on('new message', function(data) {
 		console.log('data receive: ' + data.latitude);
 		var newMessage = new Chat({
 			message: data.message,
+			timestamp: data.timestamp,
 			loc: {
 				type: 'Point',
 				coordinates: [data.longitude, data.latitude]
@@ -48,19 +41,18 @@ io.on('connection', function(socket) {
 
 		socket.broadcast.emit('new message', {
 			username: socket.username,
-			timestamp: Date.now,
+			timestamp: data.timestamp,
 			message: data.message
 		});
 	});
 
-	socket.on('new user', function(data) {
-		var nearbyMessages;
+	socket.on('new location', function(loc) {
 		Chat.find ({
 			"loc": {
 				$near: { 
 					$geometry: {
 						type: "Point", 
-						coordinates: [-73.981891 , 40.736936]
+						coordinates: [loc.lon, loc.lat]
 					}, 
 					$maxDistance: 4000
 				}
@@ -75,6 +67,6 @@ io.on('connection', function(socket) {
 	});
 });
 
-server.listen(3000, function() {
-	console.log('listening on port 3000');
+server.listen(app.get('port'), function() {
+	console.log('listening on port '+app.get('port'));
 });
