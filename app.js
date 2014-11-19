@@ -42,7 +42,9 @@ io.on('connection', function(socket) {
 		socket.broadcast.emit('new message', {
 			username: socket.username,
 			timestamp: data.timestamp,
-			message: data.message
+			message: data.message,
+			lat: data.latitude,
+			lon: data.longitude
 		});
 	});
 
@@ -54,7 +56,7 @@ io.on('connection', function(socket) {
 						type: "Point", 
 						coordinates: [loc.lon, loc.lat]
 					}, 
-					$maxDistance: 4000
+					$maxDistance: 200
 				}
 			}
 		}, function(err, result) {
