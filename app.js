@@ -33,12 +33,12 @@ io.on('connection', function(socket) {
 				type: 'Point',
 				coordinates: [data.longitude, data.latitude]
 			}
-		});		
-			
-		newMessage.save(function (err, newMessage) {
+		});
+
+		newMessage.save(function(err, newMessage) {
 			if (err) return console.error(err);
 			console.log('new message saved in db');
-		});	
+		});
 
 		socket.broadcast.emit('new message', {
 			username: socket.username,
@@ -50,26 +50,25 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('new location', function(loc) {
-		Chat.find ({
+		Chat.find({
 			"loc": {
-				$near: { 
+				$near: {
 					$geometry: {
-						type: "Point", 
+						type: "Point",
 						coordinates: [loc.lon, loc.lat]
-					}, 
+					},
 					$maxDistance: 4000
 				}
 			}
-		}, function(err, result) {
+		}).sort('timestamp').exec(function(err, result) {
 			if (err) return console.log('Error retreiving data');
 			io.emit('nearby messages', {
 				data: result
 			});
 		});
-		
 	});
 });
 
 server.listen(app.get('port'), function() {
-	console.log('listening on port '+app.get('port'));
+	console.log('listening on port ' + app.get('port'));
 });
