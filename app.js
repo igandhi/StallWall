@@ -4,12 +4,13 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var mongoose = require('mongoose');
 var Chat = require('./models/chat.js');
+var mongoUrl = process.env.MONGOLAB_URI || 'mongodb://localhost/stallwall';
 
 app.set('port', process.env.PORT || 3000);
 
 app.use(express.static(__dirname + '/public'));
 
-mongoose.connect('mongodb://localhost/stallwall', function(err, res) {
+mongoose.connect(mongoUrl, function(err, res) {
 	if (err) return console.log('ERROR connecting to db');
 	console.log('Successfully connected to db');
 });
@@ -56,7 +57,7 @@ io.on('connection', function(socket) {
 						type: "Point", 
 						coordinates: [loc.lon, loc.lat]
 					}, 
-					$maxDistance: 200
+					$maxDistance: 4000
 				}
 			}
 		}, function(err, result) {
