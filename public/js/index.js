@@ -104,7 +104,7 @@ $(function() {
 
 	socket.on('new message', function(data) {
 		var distance = distanceFromMessage(latitude, longitude, data.lat, data.lon);
-		if (distance <= 50) {
+		if (distance <= 4000) {
 			addChatMessage([data]);
 		}
 	});

@@ -57,7 +57,7 @@ io.on('connection', function(socket) {
 						type: "Point", 
 						coordinates: [loc.lon, loc.lat]
 					}, 
-					$maxDistance: 200
+					$maxDistance: 4000
 				}
 			}
 		}, function(err, result) {
