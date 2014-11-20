@@ -16,7 +16,7 @@ $(function() {
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(showPosition);
 	} else {
-		console.log('Geolocation not supported by browser');
+		disableFeaturesAndAlert();
 	}
 
 	function showPosition(position) {
@@ -56,7 +56,7 @@ $(function() {
 			var prettyTime = moment(data[i].timestamp).fromNow();
 			var $timestampDiv = $('<p class="message-timestamp"/>').text(prettyTime);
 			var $messageBodyDiv = $('<h4 class="message-body"/>').text(data[i].message);
-			var $messageDiv = $('<div class="row message"/>').append($messageBodyDiv, $timestampDiv);
+			var $messageDiv = $('<div class="message"/>').append($messageBodyDiv, $timestampDiv);
 			$messageDiv.append('<hr/>');
 			$messages.prepend($messageDiv);
 		}
@@ -80,6 +80,11 @@ $(function() {
 		return dist
 	}                                                                           
 
+	function disableFeaturesAndAlert(){
+		$inputMessage.prop('disabled', true);
+		$submit.prop('disabled', true);
+		$('.alert-box').removeClass('hide');
+	}
 
 	// keyboard events
 	$inputMessage.keydown(function (event) {
