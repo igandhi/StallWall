@@ -16,7 +16,7 @@ $(function() {
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(showPosition);
 	} else {
-		console.log('Geolocation not supported by browser');
+		disableFeaturesAndAlert();
 	}
 
 	function showPosition(position) {
@@ -80,6 +80,11 @@ $(function() {
 		return dist
 	}                                                                           
 
+	function disableFeaturesAndAlert(){
+		$inputMessage.prop('disabled', true);
+		$submit.prop('disabled', true);
+		$('.alert-box').removeClass('hide');
+	}
 
 	// keyboard events
 	$inputMessage.keydown(function (event) {
