@@ -15,7 +15,7 @@ $(function() {
 
 	// get user's location
 	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(showPosition);
+		navigator.geolocation.getCurrentPosition(showPosition, disableFeaturesAndAlert);
 	} else {
 		disableFeaturesAndAlert();
 	}
@@ -81,9 +81,11 @@ $(function() {
 	}                                                                           
 
 	function disableFeaturesAndAlert(){
+		var error = 'Geolocation has been disabled for this browser.';
 		$inputMessage.prop('disabled', true);
 		$submit.prop('disabled', true);
 		$('#slider').addClass('disabled');
+		$('.alert-box').prepend(error);
 		$('.alert-box').removeClass('hide');
 	}
 
