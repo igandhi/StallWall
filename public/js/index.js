@@ -111,7 +111,6 @@ $(function() {
 			range: range
 		};
 	  socket.emit('new location', location);
-	  console.log(range);
 	});
 
 	// socket events
