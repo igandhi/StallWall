@@ -5,6 +5,7 @@ $(function() {
 	var $inputMessage = $('.inputMessage');
 	var $submit = $('#inputMessageButton');
 
+	var radius = 1;
 	var firstTime = true;
 	var connected = false;
 	var latitude;
@@ -56,8 +57,7 @@ $(function() {
 			var prettyTime = moment(data[i].timestamp).fromNow();
 			var $timestampDiv = $('<p class="message-timestamp"/>').text(prettyTime);
 			var $messageBodyDiv = $('<h4 class="message-body"/>').text(data[i].message);
-			var $messageDiv = $('<div class="message"/>').append($messageBodyDiv, $timestampDiv);
-			$messageDiv.append('<hr/>');
+			var $messageDiv = $('<div class="message callout panel"/>').append($messageBodyDiv, $timestampDiv);
 			$messages.prepend($messageDiv);
 		}
 	}
@@ -83,6 +83,7 @@ $(function() {
 	function disableFeaturesAndAlert(){
 		$inputMessage.prop('disabled', true);
 		$submit.prop('disabled', true);
+		$('#slider').addClass('disabled');
 		$('.alert-box').removeClass('hide');
 	}
 
@@ -96,6 +97,12 @@ $(function() {
 	
 	$submit.click(function(event) {
 		sendMessage();
+	});
+
+	// slider events
+	$('[data-slider]').on('change.fndtn.slider', function(){
+	  var range = $('#slider').attr('data-slider');
+	  console.log(range);
 	});
 
 	// socket events
