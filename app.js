@@ -41,7 +41,6 @@ io.on('connection', function(socket) {
 		});
 
 		socket.broadcast.emit('new message', {
-			username: socket.username,
 			timestamp: data.timestamp,
 			message: data.message,
 			lat: data.latitude,
