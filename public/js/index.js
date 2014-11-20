@@ -10,7 +10,7 @@ $(function() {
 	var connected = false;
 	var latitude;
 	var longitude;
-
+	var range = 1609;
 	var socket = io();
 
 	// get user's location
@@ -26,7 +26,8 @@ $(function() {
 		$('.position').text('Position: ' + latitude + ', ' + longitude);
 		var location = {
 			lat: latitude,
-			lon: longitude
+			lon: longitude,
+			range: range
 		};
 		// send location to server
 		socket.emit('new location', location);
@@ -101,22 +102,26 @@ $(function() {
 
 	// slider events
 	$('[data-slider]').on('change.fndtn.slider', function(){
-	  var range = $('#slider').attr('data-slider');
+	  range = $('#slider').attr('data-slider')*1609.34;
+	  var location = {
+			lat: latitude,
+			lon: longitude,
+			range: range
+		};
+	  socket.emit('new location', location);
 	  console.log(range);
 	});
 
 	// socket events
 	socket.on('nearby messages', function(data) {
-		if (firstTime) {
-			addChatMessage(data.data);
-			firstTime = false;
-		}
+		$messages.empty();
+		addChatMessage(data.data);
 		connected = true;
 	});
 
 	socket.on('new message', function(data) {
 		var distance = distanceFromMessage(latitude, longitude, data.lat, data.lon);
-		if (distance <= 4000) {
+		if (distance <= range) {
 			addChatMessage([data]);
 		}
 	});
