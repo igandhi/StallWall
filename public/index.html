@@ -20,22 +20,13 @@
     </div>
 
     <div class="row">
-      <div class="small-8 columns">
-        <div data-alert class="alert-box radius alert hide">
-          <a href="#" class="close">&times;</a>
+      <div class="small-12 columns">
+        <div id="slider" class="range-slider radius" data-slider 
+        data-options="display_selector: #sliderOutput; start: 0.25; step: 0.25; end: 5;">
+          <span class="range-slider-handle" role="slider" tabindex="0"></span>
+          <span class="range-slider-active-segment"></span>
         </div>
-      </div>
-      <div class="small-4 columns">
-        <div class="row">
-          <div class="small-12 columns">
-            <div id="slider" class="range-slider radius" data-slider 
-            data-options="display_selector: #sliderOutput; start: 0.25; step: 0.25; end: 5;">
-              <span class="range-slider-handle" role="slider" tabindex="0"></span>
-              <span class="range-slider-active-segment"></span>
-            </div>
-            <p class="text-right"><strong><span id="sliderOutput"></span> mi. </strong></p>
-          </div>
-        </div>
+        <p class="text-right" style="color: #a3a938;"><strong><span id="sliderOutput"></span> mi. </strong></p>
       </div>
     </div>
     
@@ -44,12 +35,17 @@
         <div class="messages"></div>
       </div>
     </div>
+
+    <div id="myModal" class="reveal-modal" style="background-color: #f16055;" data-reveal>
+      <p class="lead text-center" style="margin-bottom: 0; color: #fff;">Please enable geolocation to use this application.</p>
+      <a class="close-reveal-modal" style="color: #fff;">&#215;</a>
+    </div>
     
     <script src="js/vendor/jquery.js"></script>
     <script src="js/vendor/moment.min.js"></script>
     <script src="js/foundation.min.js"></script>
-    <script src="js/foundation/foundation.alert.js"></script>
     <script src="js/foundation/foundation.slider.js"></script>
+    <script src="js/foundation/foundation.reveal.js"></script>
     <script>
       $(document).foundation();
     </script>

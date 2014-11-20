@@ -5,7 +5,6 @@ $(function() {
 	var $inputMessage = $('.inputMessage');
 	var $submit = $('#inputMessageButton');
 
-	var radius = 1;
 	var firstTime = true;
 	var connected = false;
 	var latitude;
@@ -23,7 +22,6 @@ $(function() {
 	function showPosition(position) {
 		latitude = position.coords.latitude;
 		longitude = position.coords.longitude;
-		$('.position').text('Position: ' + latitude + ', ' + longitude);
 		var location = {
 			lat: latitude,
 			lon: longitude,
@@ -82,12 +80,10 @@ $(function() {
 	}                                                                           
 
 	function disableFeaturesAndAlert(){
-		var error = 'Geolocation has been disabled for this browser.';
 		$inputMessage.prop('disabled', true);
 		$submit.prop('disabled', true);
 		$('#slider').addClass('disabled');
-		$('.alert-box').prepend(error);
-		$('.alert-box').removeClass('hide');
+		$('#myModal').foundation('reveal', 'open');
 	}
 
 	// keyboard events
