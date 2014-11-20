@@ -56,7 +56,7 @@ $(function() {
 			var prettyTime = moment(data[i].timestamp).fromNow();
 			var $timestampDiv = $('<p class="message-timestamp"/>').text(prettyTime);
 			var $messageBodyDiv = $('<h4 class="message-body"/>').text(data[i].message);
-			var $messageDiv = $('<div class="row message"/>').append($messageBodyDiv, $timestampDiv);
+			var $messageDiv = $('<div class="message"/>').append($messageBodyDiv, $timestampDiv);
 			$messageDiv.append('<hr/>');
 			$messages.prepend($messageDiv);
 		}
