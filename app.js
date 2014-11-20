@@ -61,7 +61,7 @@ io.on('connection', function(socket) {
 			}
 		}).sort('timestamp').exec(function(err, result) {
 			if (err) return console.log('Error retreiving data');
-			io.emit('nearby messages', {
+			socket.emit('nearby messages', {
 				data: result
 			});
 		});
