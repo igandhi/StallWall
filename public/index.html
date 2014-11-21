@@ -15,8 +15,10 @@
       <div class="small-12 columns">
         <h3 class="brand" style="font-family: 'Pacifico', cursive; font-size: xx-large">StallWall</h3>
         <div class="panel">
-          <textarea rows="3" class="inputMessage" placeholder="Type here..."></textarea>
-          <input id="inputMessageButton" class="button radius small small-12" type="button" value="Send Message"/>
+          <form action="javascript:void(0);">
+            <textarea rows="3" class="inputMessage" placeholder="Type here..." style="resize: none; overflow: auto;"></textarea>
+            <input id="inputMessageButton" type="submit" class="button radius small small-12" value="Send Message"/>
+          </form>
         </div>
       </div>
     </div>
@@ -45,6 +47,7 @@
     
     <script src="js/vendor/jquery.js"></script>
     <script src="js/vendor/moment.min.js"></script>
+    <script src="js/vendor/livestamp.min.js"></script>
     <script src="js/foundation.min.js"></script>
     <script src="js/foundation/foundation.slider.js"></script>
     <script src="js/foundation/foundation.reveal.js"></script>
