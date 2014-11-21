@@ -22,7 +22,16 @@ io.on('connection', function(socket) {
 	});
 });
 
+function sendHeartbeat(){
+	setTimeout(sendHeartbeat, 8000);
+	io.sockets.emit('ping', { beat : 1 });
+}
+
 io.on('connection', function(socket) {
+
+	socket.on('pong', function(data){
+		console.log("Pong received from client");
+	});
 
 	socket.on('new message', function(data) {
 		console.log('data receive: ' + data.latitude);
@@ -67,6 +76,8 @@ io.on('connection', function(socket) {
 		});
 	});
 });
+
+setTimeout(sendHeartbeat, 8000);
 
 server.listen(app.get('port'), function() {
 	console.log('listening on port ' + app.get('port'));

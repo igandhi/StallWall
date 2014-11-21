@@ -111,4 +111,8 @@ $(function() {
 			addChatMessage([data]);
 		}
 	});
+
+	socket.on('ping', function(data){
+		socket.emit('pong', {beat: 1});
+	});
 });
