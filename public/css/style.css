@@ -1,0 +1,9 @@
+h4.message-body {
+	word-wrap: break-word;
+}
+
+.characterCount {
+	font-family: Cambria;
+	text-align: right;
+	color: #82872d
+}

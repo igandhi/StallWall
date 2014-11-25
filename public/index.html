@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>StallWall</title>
     <link rel="stylesheet" href="css/foundation.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
     <link href='//fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'/>
     <link rel="shortcut icon" href="img/speech_bubble.ico" type="image/x-icon">
     <link rel="icon" href="img/speech_bubble.ico" type="image/x-icon">
@@ -13,10 +14,11 @@
   <body>
     <div class="row">
       <div class="small-12 columns">
-        <h3 class="brand" style="font-family: 'Pacifico', cursive; font-size: xx-large; color: red">StallWall</h3>
+        <h3 class="brand" style="font-family: 'Pacifico', cursive; font-size: xx-large; color:#82872d;">StallWall</h3>
         <div class="panel">
           <form action="javascript:void(0);">
-            <textarea rows="3" class="inputMessage" placeholder="Write a message to be discovered at this location" style="resize: none; overflow: auto;"></textarea>
+            <textarea rows="3" class="inputMessage" placeholder="Write a message to be discovered at this location" maxlength="140" style="resize: none; overflow: auto;"></textarea>
+            <div class="characterCount"></div>
             <input id="inputMessageButton" type="submit" class="button radius small small-12" value="Send Message"/>
           </form>
         </div>

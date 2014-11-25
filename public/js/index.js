@@ -9,6 +9,7 @@ $(function() {
 	var latitude;
 	var longitude;
 	var range = 1609;
+	var maxChar = 140;
 	var socket = io();
 
 	// get user's location
@@ -84,7 +85,17 @@ $(function() {
 	}
 
 	$('form').submit(function() {
+		$(".characterCount").html(maxChar);
 		sendMessage();
+	});
+
+	$(".characterCount").html(maxChar);
+
+	$inputMessage.keyup(function() {
+		var text_length = $inputMessage.val().length;
+		var char_remaining = maxChar - text_length;
+
+		$(".characterCount").html(char_remaining);		
 	});
 
 	// slider events
