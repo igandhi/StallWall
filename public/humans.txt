@@ -2,11 +2,6 @@
 /* zurb.com */
 /* humanstxt.org */
 
-# TEAM
-
-    Kossy Uzokwe  Front-End Developer   @delkopiso
-    Ike Gandhi    Backend Developer
-
 # THANKS
 
     Ofure Akhiwu - Design Inspiration
